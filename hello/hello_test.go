@@ -13,3 +13,7 @@ func TestHello(t *testing.T) {
 		t.Log(msg)
 	}
 }
+
+func TestMain(t *testing.T) {
+	main()
+}
