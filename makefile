@@ -1,5 +1,4 @@
 MAKEFLAGS += --no-print-directory
-CC=go build
 EXEC=first
 SRCDIR=./
 DEP_FILE=deps
@@ -14,7 +13,8 @@ SRC= $(filter-out $(wildcard $(SRCDIR)/*/*/*_test.go), $(SRC2))
 all: displayCompilation $(EXEC) run-tests search-todo list-todo 
 
 $(EXEC): $(DEP_FILE) $(SRC) makefile
-	$(CC) -o $@ $(SRC)
+	go fmt $(SRC_FILES)
+	go build -o $@ $(SRC)
 
 displayCompilation:
 	@echo "${_RED}  --COMPILATION ${_END}"

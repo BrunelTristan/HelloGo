@@ -6,7 +6,7 @@ import (
 )
 
 func Hello() string {
-    return quote.Hello()
+	return quote.Hello()
 }
 
 func main() {
