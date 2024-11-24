@@ -11,7 +11,7 @@ SRC= $(filter-out $(wildcard $(SRCDIR)/*/*/*_test.go), $(SRC2))
 
 .PHONY: all clear 
 
-all: displayCompilation $(EXEC) run-tests code-analysis search-todo list-todo 
+all: displayCompilation $(EXEC) run-tests search-todo list-todo 
 
 $(EXEC): $(DEP_FILE) $(SRC) makefile
 	$(CC) -o $@ $(SRC)
@@ -29,9 +29,7 @@ clear: clean
 	
 run-tests: $(TST_FILES)
 	@echo "${_RED}  --LAUNCH TESTS ${_END}"
-	go test -v ./...
-
-code-analysis:
+	go test -cover -v ./...
 
 search-todo:
 	@echo "${_RED}  --LOOKING FOR TODO ${_END}"
