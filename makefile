@@ -10,7 +10,7 @@ SRC= $(filter-out $(wildcard $(SRCDIR)/*/*/*_test.go), $(SRC2))
 
 .PHONY: all clear 
 
-all: displayCompilation $(EXEC) run-tests search-todo list-todo 
+all: displayCompilation $(EXEC) run-tests list-todo 
 
 $(EXEC): $(DEP_FILE) $(SRC) makefile
 	go fmt $(SRC_FILES)
@@ -30,10 +30,8 @@ clear: clean
 run-tests: $(TST_FILES)
 	@echo "${_RED}  --LAUNCH TESTS ${_END}"
 	go test -cover -v ./...
+	go test -bench=. ./...
 
-search-todo:
-	@echo "${_RED}  --LOOKING FOR TODO ${_END}"
-	@grep -I -ri 'todo ' $(SRCDIR) | grep -v 'makefile:' | wc -l
-	
 list-todo:
+	@echo "${_RED}  --LOOKING FOR TODO ${_END}"
 	@grep -I -ri 'todo ' $(SRCDIR) | grep -v 'makefile:' || true
