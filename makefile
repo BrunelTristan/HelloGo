@@ -1,7 +1,6 @@
 MAKEFLAGS += --no-print-directory
 EXEC=first
 SRCDIR=./
-DEP_FILE=deps
 TST_FILES=$(wildcard $(SRCDIR)/*/*/*_test.go $(SRCDIR)/*/*_test.go $(SRCDIR)/*_test.go)
 SRC_FILES=$(wildcard $(SRCDIR)/*/*/*.go $(SRCDIR)/*/*.go $(SRCDIR)/*.go)
 SRC1= $(filter-out $(wildcard $(SRCDIR)/*_test.go), $(SRC_FILES))
@@ -12,17 +11,13 @@ SRC= $(filter-out $(wildcard $(SRCDIR)/*/*/*_test.go), $(SRC2))
 
 all: displayCompilation $(EXEC) run-tests code-analysis list-todo 
 
-$(EXEC): $(DEP_FILE) $(SRC) makefile
+$(EXEC): $(SRC) makefile
+	go mod tidy
 	go fmt $(SRC_FILES)
 	go build -o $@ $(SRC)
 
 displayCompilation:
 	@echo "${_RED}  --COMPILATION ${_END}"
-
-$(DEP_FILE): go.mod go.sum
-	go mod download
-	go mod verify
-	touch $(DEP_FILE)
 
 code-analysis:
 	go vet ./...
