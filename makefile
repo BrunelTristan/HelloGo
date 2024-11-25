@@ -26,7 +26,7 @@ $(DEP_FILE): go.mod go.sum
 
 code-analysis:
 	go vet ./...
-	golangci-lint run --enable-all
+	golangci-lint run --enable-all -D exportloopref
 
 clear: clean
 	rm -rf $(EXEC)
