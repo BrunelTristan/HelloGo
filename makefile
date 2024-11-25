@@ -10,7 +10,7 @@ SRC= $(filter-out $(wildcard $(SRCDIR)/*/*/*_test.go), $(SRC2))
 
 .PHONY: all clear 
 
-all: displayCompilation $(EXEC) run-tests list-todo 
+all: displayCompilation $(EXEC) run-tests code-analysis list-todo 
 
 $(EXEC): $(DEP_FILE) $(SRC) makefile
 	go fmt $(SRC_FILES)
@@ -23,6 +23,10 @@ $(DEP_FILE): go.mod go.sum
 	go mod download
 	go mod verify
 	touch $(DEP_FILE)
+
+code-analysis:
+	go vet ./...
+	golangci-lint run --enable-all
 
 clear: clean
 	rm -rf $(EXEC)
