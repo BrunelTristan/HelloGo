@@ -1,6 +1,7 @@
 package hello
 
 import (
+	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"testing"
 )
@@ -8,6 +9,7 @@ import (
 func TestHello(t *testing.T) {
 	msg := Hello()
 
+	assert.NotEmpty(t, msg, "Should return a message")
 	if len(msg) == 0 {
 		t.Error("Error Hello return no message")
 	} else {
