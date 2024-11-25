@@ -26,4 +26,12 @@ CMD ["make"]
 # Execution
 FROM builder As executor
 
-RUN ./first
+ARG EXEC_NAME
+ENV EXEC_NAME $EXEC_NAME
+
+COPY $EXEC_NAME .
+
+# Create a script to pass command line args
+RUN echo "./"$EXEC_NAME" \$@" > /run.sh
+
+ENTRYPOINT ["/bin/sh", "/run.sh"]
